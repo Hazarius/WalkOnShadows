@@ -32,6 +32,10 @@ public class ShadowCastObject : MonoBehaviour
 			_shadows.Add(shadow);
 			WorldManager.Instance.Append(clone);
 		}
+		var selfCollider = GetComponent<PolygonCollider2D>();
+		if (selfCollider != null) {
+			Destroy(selfCollider);
+		}
 
 		UpdateShadow();
 	}
@@ -59,7 +63,7 @@ public class ShadowCastObject : MonoBehaviour
 				shadow.transform.position = intersection;
 				var scaleFactor = lightDist / objDist;
 
-				shadow.transform.localScale = Vector3.one * scaleFactor;
+				shadow.transform.localScale = shadow.Owner.transform.localScale * scaleFactor;
 			} else {
 				shadow.gameObject.SetActive(false);
 			}
